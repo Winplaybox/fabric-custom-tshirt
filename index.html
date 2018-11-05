@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Fabric Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/2.4.3/fabric.min.js"></script>
+  <style>
+    body{background:#edeae8;}
+    #pocket li a{cursor: pointer;padding: 8px 22px;width: 100%;max-width: 100%;}
+    #pocket a.active{color:red;}
+    a{color:#000;}
+    a:hover{color:#000;}
+    canvas{cursor: pointer!important;margin:0;padding:0;}
+    canvas canvas:hover{ opacity: 0.5;}
+    .container-fuild {padding: 0 15px;padding-left: 0;}
+.nav-tabs {border-bottom: 1px solid #dee2e6;box-shadow: 0 0 2px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.25);}
+.tab-content {background: #fff;box-shadow: 0 0 2px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.25);}
+ul {padding-left: 0;}
+.tab-content li {list-style-type: none;display: flex;}
+.nav-tabs .nav-item {margin-bottom: -1px;flex: 0 0 50%;    text-align: center;text-transform: uppercase;font-weight: 700;}
+p{margin:0;border-bottom: 1px solid #000;padding-top:1rem;}
+    .maincanvas>.canvas-container {left: 0!important;}
+    #fabricsback img,#fabricspocket img{width: 13%; height: 13%; margin: 8px;cursor: pointer;}
+    #fabricsback img:hover,#fabricspocket img:hover{    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);}
+     .innercanvas{/*flex-wrap: wrap; display: flex; width: 50%;*/ position: absolute; top: 112px; left: 66px;} 
+    .canvas-container {flex: 0 0 50%;    width: auto!important;height: auto!important;}
+    .canvas-container:first-child {left: 30px;}
+.canvas-container:not(:first-child) {left: 123px;}
+.canvas-container.mainback { left: 0; flex: auto; height: 100%!important; width: 100%!important; position: inherit!important; top: 29%;}
+    .ng-hide{display: none;}
+    .inneractive{display: block;}
+  </style>
+</head>
+<body>
+    <div class="container-fuild">
+        <div class="row">
+          <div class="col-md-7"><canvas id="fabriccanvas" width="700" height="400" style="border:1px solid"></canvas></div>
+          <div class="col-md-5">
+            <!-- Nav tabs --><br><br>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" href="#pockettb">Options</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#fabricstb">Fabrics</a>
+        </li>
+      </ul>
+      
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane active" id="pockettb">
+            <div id="pocket">
+                <ul>
+                  <li><a data-src='Pocket/PointedPocket.svg' >Pointed</a></li>
+                  <li><a data-src='Pocket/SquarePocket.svg'>Square</a></li>
+                  <li><a data-src='Pocket/UtilityPocket.svg'>Utility</a></li>
+                </ul>
+              </div>
+        </div>
+        <div class="tab-pane container fade" id="fabricstb">
+            <div id="fabricspocket" class="ng-hide">
+              <p>Pocket</p>
+                <div class="container">
+                    <div  class="row">
+                        <img src="Swatches/2003-1.png"/>
+                        <img src="Swatches/2003-2.png"/>
+                        <img src="Swatches/2003-3.png"/>
+                        <img src="Swatches/2053-1.png"/>
+                        <img src="Swatches/2053-2.png"/>
+                        <img src="Swatches/2053-3.png"/>
+                        <img src="Swatches/2053-4.png"/>
+                        <img src="Swatches/2053-5.png"/>
+                        <img src="Swatches/2154-1.png"/>
+                        <img src="Swatches/2154-2.png"/>
+                        <img src="Swatches/2154-3.png"/>
+                        <img src="Swatches/2154-4.png"/>
+                        <img src="Swatches/2154-5.png"/>
+                        <img src="Swatches/2154-6.png"/>
+                        <img src="Swatches/2154-7.png"/>
+                      </div>
+                </div>
+              </div>
+              <div id="fabricsback">
+                <p>Flannel Swatches</p>
+                <div class="container">
+                    <div  class="row">
+                        <img src="Swatches/2003-1.png"/>
+                        <img src="Swatches/2003-2.png"/>
+                        <img src="Swatches/2003-3.png"/>
+                        <img src="Swatches/2053-1.png"/>
+                        <img src="Swatches/2053-2.png"/>
+                        <img src="Swatches/2053-3.png"/>
+                        <img src="Swatches/2053-4.png"/>
+                        <img src="Swatches/2053-5.png"/>
+                        <img src="Swatches/2154-1.png"/>
+                        <img src="Swatches/2154-2.png"/>
+                        <img src="Swatches/2154-3.png"/>
+                        <img src="Swatches/2154-4.png"/>
+                        <img src="Swatches/2154-5.png"/>
+                        <img src="Swatches/2154-6.png"/>
+                        <img src="Swatches/2154-7.png"/>
+                      </div>
+                </div>
+                </div>
+        </div>
+      </div>
+            
+           </div>
+        </div>
+      </div>
+    
+
+<script>
+$('#fabriccanvas').parent().addClass('maincanvas');
+var canvas = this.__canvas = new fabric.Canvas('fabriccanvas');
+var ctx= canvas.getContext('2d');
+//fabric.Object.prototype.selectable = false;
+fabric.Object.prototype.transparentCorners = false;
+this.__canvases = [ ];
+// fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
+var padding = 0;
+setTimeout(function() {
+  $('#pocket li:first-child a').trigger('click');
+},10);
+fabric.Image.fromURL('http://go.kotisdesign.com/wp-content/uploads/2018/10/Solid_Icon_Example_Large.png', function(img){
+  img1 = img;
+  isImageLoaded = true;
+   image = img1.set({
+      width:1150,
+      height:1000,
+      selectable:false
+   })
+  mainback();
+  pocketback1.on('mouse:down', function(event) {
+    tabsative();
+  }, false);
+  //canvas.setOverlayImage(img1, canvas.renderAll.bind(canvas));
+  // img1.setShadow("0 0 2px rgba(0,0,0,0.15),0 1px 3px rgba(0,0,0,0.25)");
+  img1.setShadow({
+    color: '#000',
+    blur: 2
+});
+  // this.__canvases.push(canvas);
+});
+$('<div class="row innercanvas"><canvas id="pocketback" height="100" width="100" style="z-index: 1;"> </canvas><canvas id="pocketback1" height="100" width="100" style="z-index: 1;"> </canvas>').insertAfter('#fabriccanvas') ; 
+var pocketback1 = new fabric.Canvas('pocketback');
+var pocketback2 = new fabric.Canvas('pocketback1');
+$('#pocket a').on('click',function(i,item){
+      img = $(this).attr('data-src');
+      var hj=$(this).addClass('active').removeClass('deactive');
+      $('#pocket a').not(hj).removeClass('active').addClass('deactive');
+      // if(img.length > 0){
+      fabric.Image.fromURL(img, function(img) {
+        function loadimage(){
+          isImageLoaded = true;
+          image = img.set({
+              width:canvas.getWidth(),
+              height:canvas.getWidth(),
+              selectable:false
+          })
+          
+        }
+          $(document).ajaxComplete(function(){
+            if($('#pocket a.deactive')){
+            //pocketback1.remove(image).renderAll();
+          // pocketback2.remove(image).renderAll();
+            pocketback1:cleared;
+            pocketback2:cleared;
+
+            }
+          });
+          if($('#pocket a.active')) {
+            loadimage();
+            pocketback1.add(image).renderAll();
+            pocketback2.add(image).renderAll();
+          }
+          
+      });
+      // insert pocket section
+      console.log(img)
+  });
+  $('#fabricsback img').click(function(i,item){
+    debugger;
+    img = $(this).attr('src');
+    var hj=$(this).addClass('active').removeClass('deactive');
+    $('#fabricsback img').not(hj).removeClass('active').addClass('deactive');
+    $('#main').parent().addClass('mainback');
+    mainback(img);
+    
+});
+function mainback(img){
+  fabric.Image.fromURL(img, function(img){
+    img1.scaleToWidth(canvas.getWidth());
+     img2 = img;
+    img2.scaleToWidth(700);
+    img2.left = 0;
+    img2.top = 0;
+    selectable: false;
+     img2.globalCompositeOperation = 'source-atop';
+     canvas.add(img1);
+    canvas.add(img2);
+  });
+  
+        
+}
+pocketback1.on('mouse:down', function(event) {
+  tabsative();
+  $('#fabricspocket img').click(function(i,item){
+  img = $(this).attr('src');
+  var hj=$(this).addClass('active').removeClass('deactive');
+  $('#fabricspocket img').not(hj).removeClass('active').addClass('deactive');
+  debugger; 
+  loadpattern(img);
+  loadpattern1(img);
+  pocketback1.renderAll();
+  pocketback2.renderAll();
+  //pocketback1.setBackgroundImage(img, pocketback1.renderAll.bind(pocketback1));
+  //pocketback2.setBackgroundImage(img, pocketback2.renderAll.bind(pocketback2));
+  });
+}, false);
+
+
+pocketback2.on('mouse:down', function(event) {
+  tabsative();
+  $('#fabricspocket img').click(function(i,item){
+  img = $(this).attr('src');
+  var hj=$(this).addClass('active').removeClass('deactive');
+  $('#fabricspocket img').not(hj).removeClass('active').addClass('deactive');
+  loadpattern1(img);
+  loadpattern(img);
+  pocketback1.renderAll();
+  pocketback2.renderAll();
+  // pocketback1.setBackgroundImage(img, pocketback1.renderAll.bind(pocketback1));
+  // pocketback2.setBackgroundImage(img, pocketback2.renderAll.bind(pocketback2));
+  });
+}, false);
+
+ function loadpattern(img){
+  fabric.Image.fromURL(img, function(img){
+    //img1.scaleToWidth(canvas.getWidth());
+    img2 = img;
+    img2.scaleToHeight(100);
+    img2.left = 0;
+    img2.top = 0;
+    img2.globalCompositeOperation = 'source-atop';
+    pocketback1.add(img2);
+  });
+ } 
+ function loadpattern1(img){
+  fabric.Image.fromURL(img, function(img){
+    //img1.scaleToWidth(canvas.getWidth());
+    img2 = img;
+    img2.scaleToHeight(100);
+    img2.left = 0;
+    img2.top = 0;
+    img2.globalCompositeOperation = 'source-atop';
+    //canvas.add(img1);
+    pocketback2.add(img2);
+  });
+ }
+function tabsative(){
+  $('.nav-tabs .nav-item').find('.nav-link').addClass('active');
+$('.nav-item:first-child').find('.nav-link').removeClass('active');
+$('.tab-content #fabricstb').addClass('active').removeClass('fade');
+$('.tab-content #pockettb').addClass('fade').removeClass('active');
+$('.tab-content #fabricspocket').addClass('inneractive').removeClass('ng-hide');
+image.setShadow({
+            color: '#000',
+            blur: 10,
+            offsetX: 0,
+            offsetY: 0
+        });
+}
+// pocketback1.on('mouse:over', function(e) {
+//     e.target.set({
+// opacity:1
+//     });
+//     pocketback1.renderAll();
+//   });
+//   pocketback1.on('mouse:out', function(e) {
+//     e.target.set({
+//       opacity:1
+//     });
+//     pocketback1.renderAll();
+//   });
+//   pocketback2.on('mouse:over', function(e) {
+//     e.target.set({
+// opacity:1
+//     });
+//     pocketback2.renderAll();
+//   });
+//   pocketback2.on('mouse:out', function(e) {
+//     e.target.set({
+//       opacity:1
+//     });
+//     pocketback2.renderAll();
+//   });
+  // fabric.util.addListener(fabric.window, 'load', function() {
+  //   debugger;
+  //   var canvas = this.__canvas || this.canvas,
+  //       canvases = this.__canvases || this.canvases;
+
+  //   canvas && canvas.calcOffset && canvas.calcOffset();
+
+  //   if (canvases && canvases.length) {
+  //     for (var i = 0, len = canvases.length; i < len; i++) {
+  //       canvases[i].calcOffset();
+  //     }
+  //   }
+  // });
+</script>
+
+</body>
+</html>
