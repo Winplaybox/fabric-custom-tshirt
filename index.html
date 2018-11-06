@@ -25,15 +25,18 @@ ul {padding-left: 0;}
 .nav-tabs .nav-item {margin-bottom: -1px;flex: 0 0 50%;    text-align: center;text-transform: uppercase;font-weight: 700;}
 p{margin:0;border-bottom: 1px solid #000;padding-top:1rem;}
     .maincanvas>.canvas-container {left: 0!important;}
-    #fabricsback img,#fabricspocket img{width: 13%; height: 13%; margin: 8px;cursor: pointer;}
+    #fabricsback img,#fabricspocket img{width: 39px; height: 39px; margin: 8px;cursor: pointer;}
     #fabricsback img:hover,#fabricspocket img:hover{    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);}
-     .innercanvas{/*flex-wrap: wrap; display: flex; width: 50%;*/ position: absolute; top: 112px; left: 66px;} 
+     .innercanvas,.inneroutcanvas{/*flex-wrap: wrap; display: flex; width: 50%;*/ position: absolute; top: 112px; left: 66px;} 
     .canvas-container {flex: 0 0 50%;    width: auto!important;height: auto!important;}
     .canvas-container:first-child {left: 30px;}
 .canvas-container:not(:first-child) {left: 123px;}
+.outercanvas .canvas-container:first-child {left: 16px;}
 .canvas-container.mainback { left: 0; flex: auto; height: 100%!important; width: 100%!important; position: inherit!important; top: 29%;}
     .ng-hide{display: none;}
     .inneractive{display: block;}
+    .outercanvas .canvas-container:first-child .canvas-container {left: 0;}
+    #fabricsback img.active, #fabricspocket img.active {border: 3px solid #ff6200;}
   </style>
 </head>
 <body>
@@ -67,7 +70,7 @@ p{margin:0;border-bottom: 1px solid #000;padding-top:1rem;}
               <p>Pocket</p>
                 <div class="container">
                     <div  class="row">
-                        <img src="Swatches/2003-1.png"/>
+                        <!-- <img src="Swatches/2003-1.png"/>
                         <img src="Swatches/2003-2.png"/>
                         <img src="Swatches/2003-3.png"/>
                         <img src="Swatches/2053-1.png"/>
@@ -81,7 +84,7 @@ p{margin:0;border-bottom: 1px solid #000;padding-top:1rem;}
                         <img src="Swatches/2154-4.png"/>
                         <img src="Swatches/2154-5.png"/>
                         <img src="Swatches/2154-6.png"/>
-                        <img src="Swatches/2154-7.png"/>
+                        <img src="Swatches/2154-7.png"/> -->
                       </div>
                 </div>
               </div>
@@ -89,7 +92,8 @@ p{margin:0;border-bottom: 1px solid #000;padding-top:1rem;}
                 <p>Flannel Swatches</p>
                 <div class="container">
                     <div  class="row">
-                        <img src="Swatches/2003-1.png"/>
+                      <!-- <img id="mainimages"/> -->
+                        <!-- <img src="Swatches/2003-1.png"/>
                         <img src="Swatches/2003-2.png"/>
                         <img src="Swatches/2003-3.png"/>
                         <img src="Swatches/2053-1.png"/>
@@ -103,7 +107,7 @@ p{margin:0;border-bottom: 1px solid #000;padding-top:1rem;}
                         <img src="Swatches/2154-4.png"/>
                         <img src="Swatches/2154-5.png"/>
                         <img src="Swatches/2154-6.png"/>
-                        <img src="Swatches/2154-7.png"/>
+                        <img src="Swatches/2154-7.png"/> -->
                       </div>
                 </div>
                 </div>
@@ -116,10 +120,11 @@ p{margin:0;border-bottom: 1px solid #000;padding-top:1rem;}
     
 
 <script>
+  /*sagar mistry*/
 $('#fabriccanvas').parent().addClass('maincanvas');
 var canvas = this.__canvas = new fabric.Canvas('fabriccanvas');
 var ctx= canvas.getContext('2d');
-//fabric.Object.prototype.selectable = false;
+fabric.Object.prototype.selectable = false;
 fabric.Object.prototype.transparentCorners = false;
 this.__canvases = [ ];
 // fabric.Object.prototype.originX = fabric.Object.prototype.originY = 'center';
@@ -127,6 +132,28 @@ var padding = 0;
 setTimeout(function() {
   $('#pocket li:first-child a').trigger('click');
 },10);
+/*create Swatchesimage dynamic*/
+var Swatchesimage = ["2003-1.png" ,"2003-2.png" ,"2003-3.png" ,"2053-1.png" ,"2053-2.png" ,"2053-3.png" ,"2053-4.png" ,"2053-5.png" ,"2154-1.png" ,"2154-2.png" ,"2154-3.png" ,"2154-4.png" ,"2154-5.png" ,"2154-6.png" ,"2154-7.png","Black.png"];
+ for (var i = 0; i < Swatchesimage.length; i++){
+//Swatchesimage.forEach(function(i){
+debugger;
+var addimg = document.createElement("img");
+ $('#fabricsback .row').append(addimg);
+//  $('#fabricspocket .row').append(addimg);
+$(addimg).attr('id',"tbg"+i)
+$('#tbg'+i).attr('src','Swatches/'+Swatchesimage[i]);
+}
+/*create pocket swatches image dynamic*/
+var pSwatchesimage = ["2003-1.png" ,"2003-2.png" ,"2003-3.png" ,"2053-1.png" ,"2053-2.png" ,"2053-3.png" ,"2053-4.png" ,"2053-5.png" ,"2154-1.png" ,"2154-2.png" ,"2154-3.png" ,"2154-4.png" ,"2154-5.png" ,"2154-6.png" ,"2154-7.png","Black.png"];
+ for (var i = 0; i < pSwatchesimage.length; i++){
+//Swatchesimage.forEach(function(i){
+debugger;
+var addimg = document.createElement("img");
+ $('#fabricspocket .row').append(addimg);
+//  $('#fabricspocket .row').append(addimg);
+$(addimg).attr('id',"pocketbg"+i)
+$('#pocketbg'+i).attr('src','Swatches/'+pSwatchesimage[i]);
+}
 fabric.Image.fromURL('http://go.kotisdesign.com/wp-content/uploads/2018/10/Solid_Icon_Example_Large.png', function(img){
   img1 = img;
   isImageLoaded = true;
@@ -147,9 +174,13 @@ fabric.Image.fromURL('http://go.kotisdesign.com/wp-content/uploads/2018/10/Solid
 });
   // this.__canvases.push(canvas);
 });
-$('<div class="row innercanvas"><canvas id="pocketback" height="100" width="100" style="z-index: 1;"> </canvas><canvas id="pocketback1" height="100" width="100" style="z-index: 1;"> </canvas>').insertAfter('#fabriccanvas') ; 
+$('<div class="row innercanvas"><canvas id="pocketback" height="100" width="100" style="z-index: 2;"> </canvas><canvas id="pocketback1" height="100" width="100" style="z-index: 2;"> </canvas>').insertAfter('#fabriccanvas') ;
+  $('<div class="row inneroutcanvas"><canvas id="uppocketback" height="100" width="100" style="z-index: 3;"> </canvas><canvas id="uppocketback1" height="100" width="100" style="z-index: 3;"> </canvas>').insertAfter('.innercanvas') ;
+  $('.maincanvas').append('<div class="row outercanvas"><canvas id="coverlaycanvas"  width="707" height="500" style="z-index: 1;"> </canvas></div>');
 var pocketback1 = new fabric.Canvas('pocketback');
 var pocketback2 = new fabric.Canvas('pocketback1');
+var pocketback3 = new fabric.Canvas('uppocketback');
+var pocketback4= new fabric.Canvas('uppocketback1');
 $('#pocket a').on('click',function(i,item){
       img = $(this).attr('data-src');
       var hj=$(this).addClass('active').removeClass('deactive');
@@ -163,7 +194,8 @@ $('#pocket a').on('click',function(i,item){
               height:canvas.getWidth(),
               selectable:false
           })
-          
+          pocketback3.add(image).renderAll();
+            pocketback4.add(image).renderAll();
         }
           $(document).ajaxComplete(function(){
             if($('#pocket a.deactive')){
@@ -185,14 +217,27 @@ $('#pocket a').on('click',function(i,item){
       console.log(img)
   });
   $('#fabricsback img').click(function(i,item){
-    debugger;
-    img = $(this).attr('src');
-    var hj=$(this).addClass('active').removeClass('deactive');
-    $('#fabricsback img').not(hj).removeClass('active').addClass('deactive');
-    $('#main').parent().addClass('mainback');
-    mainback(img);
-    
-});
+      debugger;
+      img = $(this).attr('src');
+      var hj=$(this).addClass('active').removeClass('deactive');
+      $('#fabricsback img').not(hj).removeClass('active').addClass('deactive');
+      $('#main').parent().addClass('mainback');
+      mainback(img);
+      
+    var canvaz = new fabric.Canvas('coverlaycanvas');
+    fabric.Image.fromURL('http://go.kotisdesign.com/wp-content/uploads/2018/10/Solid_Icon_Example_Large.svg', function(oImg) {
+      debugger;
+      imgz1 = oImg;
+      isImageLoaded = true;
+      imagz = imgz1.set({
+          width:1550,
+          height:1200,
+          selectable:false
+      })
+          imgz1.scaleToWidth(canvaz.getWidth());
+          canvaz.add(imgz1);
+    });
+  });
 function mainback(img){
   fabric.Image.fromURL(img, function(img){
     img1.scaleToWidth(canvas.getWidth());
@@ -205,10 +250,8 @@ function mainback(img){
      canvas.add(img1);
     canvas.add(img2);
   });
-  
-        
-}
-pocketback1.on('mouse:down', function(event) {
+  }
+pocketback3.on('mouse:down', function(event) {
   tabsative();
   $('#fabricspocket img').click(function(i,item){
   img = $(this).attr('src');
@@ -225,7 +268,7 @@ pocketback1.on('mouse:down', function(event) {
 }, false);
 
 
-pocketback2.on('mouse:down', function(event) {
+pocketback4.on('mouse:down', function(event) {
   tabsative();
   $('#fabricspocket img').click(function(i,item){
   img = $(this).attr('src');
