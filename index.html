@@ -154,7 +154,7 @@ var addimg = document.createElement("img");
 $(addimg).attr('id',"pocketbg"+i)
 $('#pocketbg'+i).attr('src','Swatches/'+pSwatchesimage[i]);
 }
-fabric.Image.fromURL('http://go.kotisdesign.com/wp-content/uploads/2018/10/Solid_Icon_Example_Large.png', function(img){
+fabric.Image.fromURL('Solid_Icon_Example_Large.png', function(img){
   img1 = img;
   isImageLoaded = true;
    image = img1.set({
@@ -225,7 +225,7 @@ $('#pocket a').on('click',function(i,item){
       mainback(img);
       
     var canvaz = new fabric.Canvas('coverlaycanvas');
-    fabric.Image.fromURL('http://go.kotisdesign.com/wp-content/uploads/2018/10/Solid_Icon_Example_Large.svg', function(oImg) {
+    fabric.Image.fromURL('Solid_Icon_Example_Large.svg', function(oImg) {
       debugger;
       imgz1 = oImg;
       isImageLoaded = true;
