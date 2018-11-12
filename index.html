@@ -25,7 +25,8 @@ ul {padding-left: 0;}
 .nav-tabs .nav-item {margin-bottom: -1px;flex: 0 0 50%;    text-align: center;text-transform: uppercase;font-weight: 700;}
 p{margin:0;border-bottom: 1px solid #000;padding-top:1rem;}
     .maincanvas>.canvas-container {left: 0!important;}
-    #fabricsback img,#fabricspocket img{width: 39px; height: 39px; margin: 8px;cursor: pointer;}
+    #fabricsback img,#fabricspocket img{width: auto; height: 39px;cursor: pointer;border:1px solid #b2b2b2;}
+    .imgload { display: flex; flex-direction: column; margin: 8px; align-items: center; width: 50px; }
     #fabricsback img:hover,#fabricspocket img:hover{    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);}
      .innercanvas,.inneroutcanvas{/*flex-wrap: wrap; display: flex; width: 50%;*/ position: absolute; top: 112px; left: 66px;} 
     .canvas-container {flex: 0 0 50%;    width: auto!important;height: auto!important;}
@@ -37,12 +38,51 @@ p{margin:0;border-bottom: 1px solid #000;padding-top:1rem;}
     .inneractive{display: block;}
     .outercanvas .canvas-container:first-child .canvas-container {left: 0;}
     #fabricsback img.active, #fabricspocket img.active {border: 3px solid #ff6200;}
+    button#inpupload,button#inpupload1 { padding: 0; margin: 8px; border: 0; outline: 0;background:#fff;display: flex; flex-direction: column; align-items: center; }
+    button#inpupload img,button#inpupload1 img { margin: 0; }
+    .cust-loading {
+    width: 80%;
+    animation: loading-show .5s 0s linear;
+}
+@keyframes loading-show{80%,from{opacity:0}to{opacity:1}}
+@keyframes loading-linear{from{left:-20px;width:30%;visibility:visible}50%{width:30%}70%{width:70%}80%{left:50%}95%{left:120%}to{left:100%}}
+.cust-loading {
+    z-index: 19;
+    position: absolute;
+    top: 192px;
+    left: 54px;
+    margin: auto;
+    overflow: hidden;
+    background-color: #DBDBDB;
+}
+.cust-loading:before {
+    animation: loading-linear .5s 0s ease-in-out alternate infinite;
+}
+.cust-loading,.cust-loading:before {
+    position: absolute;
+    height: 4px;
+}
+.cust-loading:before {
+    display: block;
+    position: absolute;
+    content: "";
+    left: -20px;
+    width: 20px;
+    background-color: #ff0000;
+    visibility: hidden;
+}
   </style>
 </head>
 <body>
+  
     <div class="container-fuild">
         <div class="row">
-          <div class="col-md-7"><canvas id="fabriccanvas" width="700" height="400" style="border:1px solid"></canvas></div>
+          <div class="col-md-7">
+            <canvas id="fabriccanvas" width="700" height="400" style="border:1px solid"></canvas>
+            <div class="cust-loading " style="display: none">
+                <div class="cust-loading-block"></div>
+              </div>
+          </div>
           <div class="col-md-5">
             <!-- Nav tabs --><br><br>
     <ul class="nav nav-tabs">
@@ -59,9 +99,9 @@ p{margin:0;border-bottom: 1px solid #000;padding-top:1rem;}
         <div class="tab-pane active" id="pockettb">
             <div id="pocket">
                 <ul>
-                  <li><a data-src='Pocket/PointedPocket.svg' >Pointed</a></li>
-                  <li><a data-src='Pocket/SquarePocket.svg'>Square</a></li>
-                  <li><a data-src='Pocket/UtilityPocket.svg'>Utility</a></li>
+                  <li><a data-src='Pocket/PointedPocket.svg' id="pointed">Pointed</a></li>
+                  <li><a data-src='Pocket/SquarePocket.svg' id="square">Square</a></li>
+                  <li><a data-src='Pocket/UtilityPocket.svg' id="utility">Utility</a></li>
                 </ul>
               </div>
         </div>
@@ -92,7 +132,6 @@ p{margin:0;border-bottom: 1px solid #000;padding-top:1rem;}
                 <p>Flannel Swatches</p>
                 <div class="container">
                     <div  class="row">
-                      <!-- <img id="mainimages"/> -->
                         <!-- <img src="Swatches/2003-1.png"/>
                         <img src="Swatches/2003-2.png"/>
                         <img src="Swatches/2003-3.png"/>
@@ -118,10 +157,11 @@ p{margin:0;border-bottom: 1px solid #000;padding-top:1rem;}
         </div>
       </div>
     
-
+      
 <script>
-  /*sagar mistry*/
+  var imgid;
 $('#fabriccanvas').parent().addClass('maincanvas');
+
 var canvas = this.__canvas = new fabric.Canvas('fabriccanvas');
 var ctx= canvas.getContext('2d');
 fabric.Object.prototype.selectable = false;
@@ -131,6 +171,85 @@ this.__canvases = [ ];
 var padding = 0;
 setTimeout(function() {
   $('#pocket li:first-child a').trigger('click');
+  var addbutton=$('#fabricsback .imgload').last();
+  var addbutton1=$('#fabricspocket .imgload').last();
+  $('<input type="file" id="inp" style="display:none"><img src="" style="display:none" id="inpimg"/> <button id="inpupload"><img src="Swatches/custom.png"/><span>custom</span></button>').insertAfter(addbutton);
+  $('<input type="file" id="inp1" style="display:none"><img src="" style="display:none" id="inp1img"/>  <button id="inpupload1"><img src="Swatches/custom.png"/><span>custom</span></button>').insertAfter(addbutton1);
+  $('#inpupload').click(function(){ $('#inp').trigger('click'); });
+  $('#inpupload1').click(function(){ $('#inp1').trigger('click'); });
+  $('#inpupload img').click(function(i,item){
+      var hj=$(this).addClass('active').removeClass('deactive');
+      $('#fabricsback img').not(hj).removeClass('active').addClass('deactive');
+      });
+      document.getElementById('inp').onchange = function(e) {
+        if (this.files && this.files[0]) {
+          var img = document.querySelector('#inpimg');
+          img.src = URL.createObjectURL(this.files[0]);
+          img.onload = function (){
+            debugger;
+            var gh=this;
+            var src=gh.src;
+            console.log(src);
+           $('.cust-loading ').show();
+            setTimeout(function(){
+              draw(src);
+              $('.cust-loading').hide();
+            },1500);
+          } ;
+          img.onerror = failed;
+        }        
+      };
+        document.getElementById('inp1').onchange = function(e) {
+        if (this.files && this.files[0]) {
+          var img = document.querySelector('#inp1img');
+          img.src = URL.createObjectURL(this.files[0]);
+          img.onload = function (){
+            var gh=this;
+            var src=gh.src;
+            console.log(src);
+            $('.cust-loading ').show();
+            setTimeout(function(){
+              draw1(src);
+              $('.cust-loading ').hide();
+            },1500);
+          } ;
+          img.onerror = failed;
+        } 
+        };
+  function draw(src){
+  fabric.Image.fromURL(src, function(img){
+    img2 = img;
+    img2.scaleToWidth(700);
+    img2.left = 0;
+    img2.top = 0;
+    selectable: false;
+    img2.globalCompositeOperation = 'source-atop';
+    canvas.add(img2);
+  });
+}
+function draw1(src){
+  loadpattern1(src);
+  loadpattern(src);
+  pocketback1.renderAll();
+  pocketback2.renderAll();
+}
+function failed() {
+  console.error("The provided file couldn't be loaded as an Image media");
+  alert("The provided file couldn't be loaded as an Image media");
+}
+var canvaz = new fabric.Canvas('coverlaycanvas');
+    fabric.Image.fromURL('Solid_Icon_Example_Large.svg', function(oImg) {
+      debugger;
+      imgz1 = oImg;
+      isImageLoaded = true;
+      imagz = imgz1.set({
+          width:1550,
+          height:1200,
+          selectable:false
+      })
+          imgz1.scaleToWidth(canvaz.getWidth());
+          canvaz.add(imgz1);
+    });
 },10);
 /*create Swatchesimage dynamic*/
 var Swatchesimage = ["2003-1.png" ,"2003-2.png" ,"2003-3.png" ,"2053-1.png" ,"2053-2.png" ,"2053-3.png" ,"2053-4.png" ,"2053-5.png" ,"2154-1.png" ,"2154-2.png" ,"2154-3.png" ,"2154-4.png" ,"2154-5.png" ,"2154-6.png" ,"2154-7.png","Black.png"];
@@ -140,19 +259,31 @@ debugger;
 var addimg = document.createElement("img");
  $('#fabricsback .row').append(addimg);
 //  $('#fabricspocket .row').append(addimg);
-$(addimg).attr('id',"tbg"+i)
+$(addimg).attr('id',"tbg"+i);
 $('#tbg'+i).attr('src','Swatches/'+Swatchesimage[i]);
+$('#tbg'+i).wrap('<div class="imgload"></div>')
+var fg=$('#tbg'+i).attr('src');
+var df=fg.replace(/^.*[\\\/]/, '');
+var df1=df.replace(/\.[^/.]+$/, "");
+// $('#tbg'+i).attr('data-text',df1);
+$('<span>'+df1+'</span>').insertAfter('#tbg'+i);
 }
 /*create pocket swatches image dynamic*/
 var pSwatchesimage = ["2003-1.png" ,"2003-2.png" ,"2003-3.png" ,"2053-1.png" ,"2053-2.png" ,"2053-3.png" ,"2053-4.png" ,"2053-5.png" ,"2154-1.png" ,"2154-2.png" ,"2154-3.png" ,"2154-4.png" ,"2154-5.png" ,"2154-6.png" ,"2154-7.png","Black.png"];
- for (var i = 0; i < pSwatchesimage.length; i++){
-//Swatchesimage.forEach(function(i){
-debugger;
-var addimg = document.createElement("img");
- $('#fabricspocket .row').append(addimg);
-//  $('#fabricspocket .row').append(addimg);
-$(addimg).attr('id',"pocketbg"+i)
-$('#pocketbg'+i).attr('src','Swatches/'+pSwatchesimage[i]);
+for (var i = 0; i < pSwatchesimage.length; i++){
+  //Swatchesimage.forEach(function(i){
+  debugger;
+  var addimg = document.createElement("img");
+  $('#fabricspocket .row').append(addimg);
+  //  $('#fabricspocket .row').append(addimg);
+  $(addimg).attr('id',"pocketbg"+i)
+  $('#pocketbg'+i).attr('src','Swatches/'+pSwatchesimage[i]);
+  $('#pocketbg'+i).wrap('<div class="imgload"></div>')
+var fg=$('#pocketbg'+i).attr('src');
+var df=fg.replace(/^.*[\\\/]/, '');
+var df1=df.replace(/\.[^/.]+$/, "");
+// $('#tbg'+i).attr('data-text',df1);
+$('<span>'+df1+'</span>').insertAfter('#pocketbg'+i);
 }
 fabric.Image.fromURL('Solid_Icon_Example_Large.png', function(img){
   img1 = img;
@@ -181,76 +312,142 @@ var pocketback1 = new fabric.Canvas('pocketback');
 var pocketback2 = new fabric.Canvas('pocketback1');
 var pocketback3 = new fabric.Canvas('uppocketback');
 var pocketback4= new fabric.Canvas('uppocketback1');
-$('#pocket a').on('click',function(i,item){
-      img = $(this).attr('data-src');
-      var hj=$(this).addClass('active').removeClass('deactive');
-      $('#pocket a').not(hj).removeClass('active').addClass('deactive');
-      // if(img.length > 0){
-      fabric.Image.fromURL(img, function(img) {
-        function loadimage(){
-          isImageLoaded = true;
-          image = img.set({
-              width:canvas.getWidth(),
-              height:canvas.getWidth(),
-              selectable:false
-          })
-          pocketback3.add(image).renderAll();
-            pocketback4.add(image).renderAll();
-        }
-          $(document).ajaxComplete(function(){
-            if($('#pocket a.deactive')){
-            //pocketback1.remove(image).renderAll();
-          // pocketback2.remove(image).renderAll();
-            pocketback1:cleared;
-            pocketback2:cleared;
+var imagezz;
 
-            }
-          });
-          if($('#pocket a.active')) {
-            loadimage();
-            pocketback1.add(image).renderAll();
-            pocketback2.add(image).renderAll();
-          }
-          
-      });
-      // insert pocket section
-      console.log(img)
-  });
-  $('#fabricsback img').click(function(i,item){
-      debugger;
-      img = $(this).attr('src');
-      var hj=$(this).addClass('active').removeClass('deactive');
-      $('#fabricsback img').not(hj).removeClass('active').addClass('deactive');
-      $('#main').parent().addClass('mainback');
-      mainback(img);
-      
-    var canvaz = new fabric.Canvas('coverlaycanvas');
-    fabric.Image.fromURL('Solid_Icon_Example_Large.svg', function(oImg) {
-      debugger;
-      imgz1 = oImg;
-      isImageLoaded = true;
-      imagz = imgz1.set({
-          width:1550,
-          height:1200,
-          selectable:false
-      })
-          imgz1.scaleToWidth(canvaz.getWidth());
-          canvaz.add(imgz1);
+$('#pocket a#pointed').on('click',function(i,item){
+  img = $(this).attr('data-src');
+    var hj=$(this).addClass('active').removeClass('deactive');
+    $('#pocket a').not(hj).removeClass('active').addClass('deactive');
+    fabric.Image.fromURL(img, function(img) {
+      function loadimage(){
+        isImageLoaded = true;
+        imagezz = img.set({
+            width:canvas.getWidth(),
+            height:canvas.getWidth(),
+            selectable:false
+        })
+        // pocketback3.add(image).renderAll();
+        //   pocketback4.add(image).renderAll();
+      }
+        $(document).ajaxComplete(function(){
+        pocketback1.clear();
+          pocketback2.clear();
+        });
+        if($('#pocket a.active')) {
+          loadimage();
+          pocketback1.clear();
+          pocketback2.clear();
+          pocketback1.add(imagezz).renderAll();
+          pocketback2.add(imagezz).renderAll();
+        }
     });
+    // insert pocket section
+    console.log(img)
+  // pocketback1.clear();
+  // pocketback2.clear();
+  // pocketback1.add(imagezz).renderAll();
+  // pocketback2.add(imagezz).renderAll();
+});
+$('#pocket a#square').on('click',function(i,item){
+  img = $(this).attr('data-src');
+    var hj=$(this).addClass('active').removeClass('deactive');
+    $('#pocket a').not(hj).removeClass('active').addClass('deactive');
+    fabric.Image.fromURL(img, function(img) {
+      function loadimage(){
+        isImageLoaded = true;
+        imagezz = img.set({
+            width:canvas.getWidth(),
+            height:canvas.getWidth(),
+            selectable:false
+        })
+        // pocketback3.add(image).renderAll();
+        //   pocketback4.add(image).renderAll();
+      }
+        $(document).ajaxComplete(function(){
+        pocketback1.clear();
+          pocketback2.clear();
+        });
+        if($('#pocket a.active')) {
+          loadimage();
+          pocketback1.clear();
+          pocketback2.clear();
+          pocketback1.add(imagezz).renderAll();
+          pocketback2.add(imagezz).renderAll();
+        }
+    });
+    // insert pocket section
+    console.log(img)
+  // pocketback1.clear();
+  // pocketback2.clear();
+  // pocketback1.add(imagezz).renderAll();
+  // pocketback2.add(imagezz).renderAll();
   });
+$('#pocket a#utility').on('click',function(i,item){
+  img = $(this).attr('data-src');
+    var hj=$(this).addClass('active').removeClass('deactive');
+    $('#pocket a').not(hj).removeClass('active').addClass('deactive');
+    fabric.Image.fromURL(img, function(img) {
+      function loadimage(){
+        isImageLoaded = true;
+        imagezz = img.set({
+            width:canvas.getWidth(),
+            height:canvas.getWidth(),
+            selectable:false
+        })
+        // pocketback3.add(image).renderAll();
+        //   pocketback4.add(image).renderAll();
+      }
+        $(document).ajaxComplete(function(){
+        pocketback1.clear();
+          pocketback2.clear();
+        });
+        if($('#pocket a.active')) {
+          loadimage();
+          pocketback1.clear();
+          pocketback2.clear();
+          pocketback1.add(imagezz).renderAll();
+          pocketback2.add(imagezz).renderAll();
+        }
+    });
+    // insert pocket section
+    console.log(img)
+  // pocketback1.clear();
+  // pocketback2.clear();
+  // pocketback1.add(imagezz).renderAll();
+  // pocketback2.add(imagezz).renderAll();
+  });
+$('#fabricsback img').click(function(i,item){
+    debugger;
+    img = $(this).attr('src');
+    var hj=$(this).addClass('active').removeClass('deactive');
+    $('#fabricsback img').not(hj).removeClass('active').addClass('deactive');
+    $('#main').parent().addClass('mainback');
+    $('.cust-loading ').show();
+    setTimeout(function(){
+      mainback(img);
+      $('.cust-loading ').hide();
+    },1500);
+    // $(this).each(function(i){
+    //   var imgs = $('#tbg'+i);
+    // var pat = ctx.createPattern(imgs, 'repeat');
+    // ctx.rect(0, 0, 7000, 7000);
+    // ctx.fillStyle = pat;
+    // ctx.fill();
+    // });
+});
 function mainback(img){
   fabric.Image.fromURL(img, function(img){
     img1.scaleToWidth(canvas.getWidth());
-     img2 = img;
+      img2 = img;
     img2.scaleToWidth(700);
     img2.left = 0;
     img2.top = 0;
     selectable: false;
-     img2.globalCompositeOperation = 'source-atop';
-     canvas.add(img1);
+      img2.globalCompositeOperation = 'source-atop';
+      canvas.add(img1);
     canvas.add(img2);
   });
-  }
+}
 pocketback3.on('mouse:down', function(event) {
   tabsative();
   $('#fabricspocket img').click(function(i,item){
@@ -258,8 +455,12 @@ pocketback3.on('mouse:down', function(event) {
   var hj=$(this).addClass('active').removeClass('deactive');
   $('#fabricspocket img').not(hj).removeClass('active').addClass('deactive');
   debugger; 
-  loadpattern(img);
-  loadpattern1(img);
+  $('.cust-loading ').show();
+    setTimeout(function(){
+      loadpattern(img);
+      loadpattern1(img);
+      $('.cust-loading ').hide();
+    },1500);
   pocketback1.renderAll();
   pocketback2.renderAll();
   //pocketback1.setBackgroundImage(img, pocketback1.renderAll.bind(pocketback1));
@@ -274,8 +475,12 @@ pocketback4.on('mouse:down', function(event) {
   img = $(this).attr('src');
   var hj=$(this).addClass('active').removeClass('deactive');
   $('#fabricspocket img').not(hj).removeClass('active').addClass('deactive');
-  loadpattern1(img);
-  loadpattern(img);
+  $('.cust-loading ').show();
+    setTimeout(function(){
+      loadpattern(img);
+      loadpattern1(img);
+      $('.cust-loading ').hide();
+    },1500);
   pocketback1.renderAll();
   pocketback2.renderAll();
   // pocketback1.setBackgroundImage(img, pocketback1.renderAll.bind(pocketback1));
